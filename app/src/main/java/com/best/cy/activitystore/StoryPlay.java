@@ -472,6 +472,41 @@ public class StoryPlay extends View {
                 }
             }
 
+            if(btn_chunplus_press == 1) {
+                delay_chunplus_count += 1;
+                if(delay_chunplus_count > 5) {
+                    btnAdd1000.showOriginalImage();
+                    delay_chunplus_count = 0;
+                    btn_chunplus_press = 0;
+                }
+            }
+
+            if(btn_chunminus_press == 1) {
+                delay_chunminus_count += 1;
+                if(delay_chunminus_count > 5) {
+                    btnMinus1000.showOriginalImage();
+                    delay_chunminus_count = 0;
+                    btn_chunminus_press = 0;
+                }
+            }
+
+            if(btn_bakplus_press == 1) {
+                delay_bakplus_count += 1;
+                if(delay_bakplus_count > 5) {
+                    btnAdd100.showOriginalImage();
+                    delay_bakplus_count = 0;
+                    btn_bakplus_press = 0;
+                }
+            }
+
+            if(btn_bakminus_press == 1) {
+                delay_bakminus_count += 1;
+                if(delay_bakminus_count > 5) {
+                    btnMinus100.showOriginalImage();
+                    delay_bakminus_count = 0;
+                    btn_bakminus_press = 0;
+                }
+            }
         }
 
         if(selectionMenu == 1) {
@@ -494,6 +529,7 @@ public class StoryPlay extends View {
                     canvas.drawBitmap(backGround, 0, 0, null);
 
                     //userManwon baek,  userCheonwon sip, as2 il
+                    canvas.drawBitmap(btnExit.button_img, btnExit.x, btnExit.y, null);
                     canvas.drawBitmap(btnCheckAns.button_img, btnCheckAns.x, btnCheckAns.y, null);
 
                     if (thing1 <= 0) thing1 = 0;
@@ -600,6 +636,7 @@ public class StoryPlay extends View {
                 if(explainOk == 0 && howToPlay2 ==0) {
                     canvas.drawBitmap(backGround2, 0, 0, null);
 
+                    canvas.drawBitmap(btnExit.button_img, btnExit.x, btnExit.y, null);
                     canvas.drawBitmap(btnCheckAns.button_img, btnCheckAns.x, btnCheckAns.y, null);
                     canvas.drawBitmap(btnNextQue.button_img, btnNextQue.x, btnNextQue.y, null);
 
@@ -719,13 +756,13 @@ public class StoryPlay extends View {
             canvas.drawText("만, 십만, 백만, 천만, 억을 읽을 수 있다.", Width / 20, btnExit.h * 2 + btnExit.h / 2 - btnExit.w / 4 + unitDistance / 4, paint8);
 
             canvas.drawText("-가게놀이: 수와 가까와지는 활동을 합니다.", Width / 20, Height * 1 / 4 + unitDistance, paint8);
-            canvas.drawText("-큰 수 학습하기: 만에서 억까지의 수를 학습합니다.", Width / 20, Height * 1 / 4 + unitDistance * 2 + unitDistance / 4, paint8);
+            //canvas.drawText("-큰 수 학습하기: 만에서 억까지의 수를 학습합니다.", Width / 20, Height * 1 / 4 + unitDistance * 2 + unitDistance / 4, paint8);
 
             canvas.drawBitmap(btnExit.button_img, btnExit.x, btnExit.y, null);
 
             canvas.drawBitmap(btnMenu1.button_img, btnMenu1.x, btnMenu1.y, null);
             canvas.drawBitmap(btnMenu2.button_img, btnMenu2.x, btnMenu2.y, null);
-            canvas.drawBitmap(btnMenu3.button_img, btnMenu3.x, btnMenu3.y, null);
+            //canvas.drawBitmap(btnMenu3.button_img, btnMenu3.x, btnMenu3.y, null);
         }
 
         if(explainOk == 1 && (selectionMenu==1 || selectionMenu == 2)) {
@@ -747,8 +784,8 @@ public class StoryPlay extends View {
                 canvas.drawBitmap(sophia.button_img, sophia.x, sophia.y, null);
             }
 
-        if (selectionMenu != 3)
-            if (howToPlay == 0)
+        if (selectionMenu == 1 || selectionMenu == 2)
+            if (howToPlay == 0 && howToPlay2 == 0)
                 canvas.drawBitmap(btnMyInfo.button_img, btnMyInfo.x, btnMyInfo.y, null);
 
         postInvalidate();
@@ -781,14 +818,24 @@ public class StoryPlay extends View {
             }
 
         if (myInfo != 1)
-            if (submenuOk == 0 && (selectionMenu == 1 || selectionMenu == 2 || selectionMenu == 3))
+            if (submenuOk == 0 && (selectionMenu == 1 || selectionMenu == 2))
                 if (x > btnExit.x && x < (btnExit.x + btnExit.w * 2) && y > btnExit.y && y < (btnExit.y + btnExit.h * 2)) {
                     myInfo = 0;
-                    if (selectionMenu == 1 || selectionMenu == 4) {
+                    if ((selectionMenu == 1 || selectionMenu == 2) && explainOk == 0 && howToPlay == 0 && howToPlay2 == 0 ) {
                         submenuOk = 1;
                         explainOk = 0;
                         selectionMenu = 0;
-                    } else btnExit.btn_exit(); //메인화면으로 나가기
+
+                        userManwon = 0;
+                        userCheonwon = 0;
+                        userBaekwon = 0;
+                        thing1 = 0;
+                        thing2 = 0;
+                        thing3 = 0;
+                        thing4 = 0;
+           //             howToPlay = 1;
+           //             howToPlay = 1;
+                    } //else btnExit.btn_exit(); //메인화면으로 나가기
                 }
 
 
@@ -819,8 +866,8 @@ public class StoryPlay extends View {
 //                submenuOk = 0;
 //            }
 
-        // 백, 십, 일  일씩 증가, 감소 시키기
-        if (selectionMenu == 2)
+        // 금액 갯수 증가, 감소 시키기
+        if (selectionMenu == 1 || selectionMenu == 2)
             if (x > btnAdd10000.x && x < (btnAdd10000.x + btnAdd10000.w * 2) && y > btnAdd10000.y && y < (btnAdd10000.y + btnAdd10000.h * 2)) {
                 userManwon += 1;
                 if (userManwon >= 9) userManwon = 9;
@@ -828,7 +875,7 @@ public class StoryPlay extends View {
                 btnAdd10000.showPressedImage();
             }
 
-        if (selectionMenu == 2)
+        if (selectionMenu == 1 || selectionMenu == 2)
             if (x > btnMinus10000.x && x < (btnMinus10000.x + btnMinus10000.w * 2) && y > btnMinus10000.y && y < (btnMinus10000.y + btnMinus10000.h * 2)) {
                 userManwon -= 1;
                 if (userManwon <= 0) userManwon = 0;
@@ -836,118 +883,38 @@ public class StoryPlay extends View {
                 btnMinus10000.showPressedImage();
             }
 
-        //만원 돈
-        if (selectionMenu == 1 || selectionMenu == 4 || selectionMenu == 3)
-
-            if (x > btnAdd10000.x && x < (btnAdd10000.x + btnAdd10000.w * 2) && y > btnAdd10000.y && y < (btnAdd10000.y + btnAdd10000.h * 2)) {
-                userManwon += 1;
-                if (userManwon >= 9) userManwon = 9;
-                btn_manplus_press = 1;
-                btnAdd10000.showPressedImage();
-
-            }
-
-        if (selectionMenu == 1 || selectionMenu == 4 || selectionMenu == 3)
-            if (x > btnMinus10000.x && x < (btnMinus10000.x + btnMinus10000.w * 2) && y > btnMinus10000.y && y < (btnMinus10000.y + btnMinus10000.h * 2)) {
-                userManwon -= 1;
-                if (userManwon <= 0) {
-                    userManwon = 0;
-                }
-                btn_manminus_press = 1;
-                btnMinus10000.showPressedImage();
-            }
-
-        if (selectionMenu == 2)
-            if (x > btnAdd1000.x && x < (btnAdd1000.x + btnAdd1000.w * 2) && y > btnAdd1000.y && y < (btnAdd1000.y + btnAdd1000.h * 2)) {
-                userCheonwon += 1;
-                if (userCheonwon == 10) {
-                    userCheonwon = 0;
-                    userManwon += 1;
-                }
-
-                btnAdd1000.showPressedImage();
-            }
-
-        if (selectionMenu == 2)
-            if (x > btnMinus1000.x && x < (btnMinus1000.x + btnMinus1000.w * 2) && y > btnMinus1000.y && y < (btnMinus1000.y + btnMinus1000.h * 2)) {
-                userCheonwon -= 1;
-                if (userCheonwon == 0) {
-                    userCheonwon = 9;
-                    userManwon -= 1;
-                }
-
-                btnMinus1000.showPressedImage();
-            }
-
-        if (selectionMenu == 1 || selectionMenu == 4 || selectionMenu == 3)
+        if (selectionMenu == 1 || selectionMenu == 2)
             if (x > btnAdd1000.x && x < (btnAdd1000.x + btnAdd1000.w * 2) && y > btnAdd1000.y && y < (btnAdd1000.y + btnAdd1000.h * 2)) {
                 userCheonwon += 1;
                 if (userCheonwon >= 9) userCheonwon = 9;
-
+                btn_chunplus_press = 1;
                 btnAdd1000.showPressedImage();
             }
 
-        if (selectionMenu == 1 || selectionMenu == 4 || selectionMenu == 3)
+        if (selectionMenu == 1 || selectionMenu == 2)
             if (x > btnMinus1000.x && x < (btnMinus1000.x + btnMinus1000.w * 2) && y > btnMinus1000.y && y < (btnMinus1000.y + btnMinus1000.h * 2)) {
                 userCheonwon -= 1;
                 if (userCheonwon <= 0) userCheonwon = 0;
-
+                btn_chunminus_press = 1;
                 btnMinus1000.showPressedImage();
             }
 
-
-        if (selectionMenu == 2)
-            if (x > btnAdd100.x && x < (btnAdd100.x + btnAdd100.w * 2) && y > btnAdd100.y && y < (btnAdd100.y + btnAdd100.h * 2)) {
-                userBaekwon += 1;
-                if (userBaekwon == 0) {
-                    if (userCheonwon == 9) {
-                        userManwon += 1;
-                        userCheonwon = 0;
-                        userBaekwon = 9;
-                    } else {
-                        userBaekwon = 0;
-                        userCheonwon += 1;
-                    }
-                }
-
-                btnAdd100.showPressedImage();
-            }
-
-        if (selectionMenu == 2)     //일의 모형 1씩 증가하기
-            if (x > btnMinus100.x && x < (btnMinus100.x + btnMinus100.w * 2) && y > btnMinus100.y && y < (btnMinus100.y + btnMinus100.h * 2)) {
-                userBaekwon += 1;
-                if (userManwon == 7 && userCheonwon == 9 && userBaekwon == 10) {
-                    userBaekwon = 9;
-                }
-                if (userBaekwon == 10) {
-                    if (userCheonwon == 9) {
-                        userManwon += 1;
-                        userBaekwon = 0;
-                        userCheonwon = 0;
-                    } else {
-                        userBaekwon = 0;
-                        userCheonwon += 1;
-                    }
-                }
-
-                btnMinus100.showPressedImage();
-            }
-
-        if (selectionMenu == 1 || selectionMenu == 4 || selectionMenu == 3)
+        if (selectionMenu == 1 || selectionMenu == 2)
             if (x > btnAdd100.x && x < (btnAdd100.x + btnAdd100.w * 2) && y > btnAdd100.y && y < (btnAdd100.y + btnAdd100.h * 2)) {
                 userBaekwon += 1;
                 if (userBaekwon >= 9) userBaekwon = 9;
-
+                btn_bakplus_press = 1;
                 btnAdd100.showPressedImage();
             }
 
-        if (selectionMenu == 1 || selectionMenu == 4 || selectionMenu == 3)     //일의 모형 1씩 증가하기
+        if (selectionMenu == 1 || selectionMenu == 2)
             if (x > btnMinus100.x && x < (btnMinus100.x + btnMinus100.w * 2) && y > btnMinus100.y && y < (btnMinus100.y + btnMinus100.h * 2)) {
                 userBaekwon -= 1;
                 if (userBaekwon <= 0) userBaekwon = 0;
-
+                btn_bakminus_press = 1;
                 btnMinus100.showPressedImage();
             }
+
 
 // 내성적보기 버튼
         if (submenuOk == 0 && myInfo == 0 && selectionMenu != 3)
@@ -980,7 +947,7 @@ public class StoryPlay extends View {
 
         // 문제 풀이과정 및 정답 닫기 버튼
         if (selectionMenu == 1 || selectionMenu == 2)
-            if (myInfo == 0)
+            if (myInfo == 0 && explainOk == 1)
                 if (x > btnMyInfoClose.x && x < (btnMyInfoClose.x + btnMyInfoClose.w * 2) && y > btnMyInfoClose.y && y < (btnMyInfoClose.y + btnMyInfoClose.h * 2)) {
                     explainOk = 0;
                     userManwon = 0;
